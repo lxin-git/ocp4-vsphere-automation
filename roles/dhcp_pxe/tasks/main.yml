@@ -12,7 +12,7 @@
       state: "{{ vcenter.vm_power_state }}"
       disk:
       - size_gb: 120
-        type: thin
+        type: None
         datastore: "{{ vcenter.datastore }}"
       hardware:
         memory_mb: 16384
@@ -37,7 +37,7 @@
       state: "{{ vcenter.vm_power_state }}"
       disk:
       - size_gb: 120
-        type: thin
+        type: None
         datastore: "{{ vcenter.datastore }}"
       hardware:
         memory_mb: 16384
@@ -62,12 +62,12 @@
       name: "{{ item.name }}"
       state: "{{ vcenter.vm_power_state }}"
       disk:
-      - size_gb: 120
-        type: thin
+      - size_gb: 250
+        type: None
         datastore: "{{ vcenter.datastore }}"
       hardware:
-        memory_mb: 16384
-        num_cpus: 4
+        memory_mb: 32768
+        num_cpus: 8
         memory_reservation_lock: True
       networks:
       - name: "{{ vcenter.network }}"
