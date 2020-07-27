@@ -43,7 +43,7 @@ vcenter:
   ip: xx.xx.xx.xx
   datastore: ds01
   network: DPortGroup  # The vsphere private network name for your ocp cluster
-  service_account_username: Administrator@mmlab.cn.ibm.com
+  service_account_username: Administrator@mmlab.cn.ibm.com  # If do not use the service account, keep it same as admin
   service_account_password: xxxxxx
   admin_username: Administrator@mmlab.cn.ibm.com
   admin_password: xxxxxx
@@ -52,7 +52,7 @@ vcenter:
   resource_pool: pool1
   folder_absolute_path: "/dc01/vm/{{ config.cluster_name }}" # need input the datacenter actual string, here: "dc01"
   vm_power_state: poweredon
-  template_name: rhcos
+  template_name: rhcos # this parameter not used anymore, can be ignored, since we use static ip mode and will pull iso
 
 download: # Change your ocp version here
   clients_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.3.8
@@ -91,7 +91,7 @@ proxy:
   no_proxy: example.internal
   cert_content:
 
-registry: # Not support at this moment
+registry: # Not support at this moment, just keep it enable=false
   enabled: false
   product_repo: openshift-release-dev
   product_release_name: ocp-release
