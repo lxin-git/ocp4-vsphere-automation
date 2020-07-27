@@ -1,0 +1,60 @@
+- hosts: localhost
+  gather_facts: False
+  vars_files: all.yml
+  tasks:
+    - name: Prepare helper vars-static var file
+      template:
+        src: vars-static.j2
+        dest: "{{ playbook_dir }}/vars-static.yml"
+        mode: 0644
+        force: yes
+
+    - name: Create VM for bastion host
+      import_role:
+        name: bastion
+        tasks_from: create_vm_bastion
+
+    - name: Add host to group [bastion]
+      add_host:
+        name: "{{ helper_vm.public_ip }}"
+        groups: bastion
+        ansible_ssh_user: "root"
+        ansible_ssh_pass: "{{ helper_vm.rootpassword }}"
+        host_key_checking: False
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+
+- hosts: bastion
+  gather_facts: True
+  vars_files:
+  #include_vars:
+  #  - vars-static.yml
+    - all.yml
+    - roles/helper/vars/main.yml
+  handlers:
+  - import_tasks: roles/helper/handlers/main.yml
+  tasks:
+    - name: include vars-static
+      include_vars: vars-static.yml
+    - name: validate hostnames
+      import_tasks: roles/helper/tasks/validate_host_names.yaml
+
+  #- name: Install EPEL repo
+  #  yum:
+  #    name: epel-release
+  #    state: present
+#
+  #- name: Install required packages
+  #  package:
+  #    name:
+  #      - ansible
+  #      - git
+  #      - screen
+  #    state: present
+
+    - debug:
+        msg: "before role: {{ helper_vm.hostname }}"
+
+    - name: Start helper function setup
+      import_role:
+        name: helper

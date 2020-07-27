@@ -1,7 +1,7 @@
 apiVersion: v1
 baseDomain: {{ config.base_domain }}
 compute:
-- hyperthreading: Enabled
+- hyperthreading: Enabled   
   name: worker
 {% if config.provider is defined and 'none' in config.provider %}
   replicas: {{ worker_vms | length }}
@@ -9,9 +9,9 @@ compute:
   replicas: 0
 {% endif %}
 controlPlane:
-  hyperthreading: Enabled
+  hyperthreading: Enabled   
   name: master
-  replicas: 3
+  replicas: 3 
 metadata:
   name: {{ config.cluster_name }}
 platform:
@@ -27,7 +27,7 @@ platform:
 {% endif %}
 fips: {{ config.fips }}
 pullSecret: '{{ config.pull_secret | to_json }}'
-sshKey: '{{ installer_ssh_key }}'
+sshKey: '{{ config.installer_ssh_key }}'
 {% if proxy is defined and proxy.enabled == true %}
 proxy:
   httpProxy: {{ proxy.http_proxy }}

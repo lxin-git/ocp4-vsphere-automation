@@ -2,6 +2,9 @@
     get_url:
       url: "{{ download.iso }}"
       dest: "{{ iso_dir }}/rhcos-installer.iso"
+    environment:
+      http_proxy: "{{ helper_vm.proxy_env }}"
+      https_proxy: "{{ helper_vm.proxy_env }}"
 
   - name: Get the sha265sum of the rhcos-installer.iso file
     stat:
@@ -10,7 +13,7 @@
       path: "{{ iso_dir }}/rhcos-installer.iso"
     register: st
 
-  - name: Create the iso mount path (if one doesn't exist already) 
+  - name: Create the iso mount path (if one doesn't exist already)
     file:
       path: "{{ iso_mount_path | default('/tmp/'+st.stat.checksum) }}"
       state: directory
@@ -24,6 +27,12 @@
       mode: '0775'
       recurse: yes
 
+  - name: Unmount the iso mount path before mount
+    mount:
+      path: "{{ iso_mount_path | default('/tmp/'+st.stat.checksum) }}"
+      state: absent
+    become: true
+
   - name: Mount the rhcos-installer.iso onto the mount path {{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}
     mount:
       path: "{{ iso_mount_path | default('/tmp/'+st.stat.checksum) }}"
@@ -34,7 +43,11 @@
     become: true
 
   - name: Synchronization between the mount path and dup
-    synchronize:
+    # Here I change synchronize to copy to make it simple, since ansible 2.8- will cause broke pipe 32 error.
+    # And synchronize have to use [delegate_to: "{{ inventory_hostname }}"] in our case
+    #synchronize:
+    copy:
+      remote_src: yes
       src: "{{ iso_mount_path | default('/tmp/'+st.stat.checksum) }}/"
       dest: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}"
 
@@ -44,15 +57,24 @@
       mode: '0775'
       recurse: yes
 
+  - name: Create the iso_updated_dir to store the updated iso patch files
+    file:
+      path: "{{ iso_updated_dir }}/files"
+      state: directory
+      mode: '0755'
+      recurse: yes
+
   - name: Make a copy of the isolinux.cfg from the {{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}
     copy:
+      remote_src: yes
       src: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}/isolinux/isolinux.cfg"
-      dest: "{{role_path}}/files/"
+      dest: "{{ iso_updated_dir }}/files/"
 
   - name: Make a copy of the grub.cfg from the {{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}
     copy:
+      remote_src: yes
       src: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}/EFI/redhat/grub.cfg"
-      dest: "{{role_path}}/files/"
+      dest: "{{ iso_updated_dir }}/files/"
 
   - name: Unmount the iso mount path
     mount:
@@ -65,9 +87,9 @@
       machine_name: "{{ item.name }}"
       machine_type: bootstrap
       machine_ip: "{{ item.ipaddr }}"
-    template: 
+    template:
       src: kernel-params.j2
-      dest: "{{role_path}}/files/{{item.name}}-kernel-params.txt"
+      dest: "{{ iso_updated_dir }}/files/{{item.name}}-kernel-params.txt"
     loop: "{{ bootstrap_vms }}"
 
   - name: Generate kernel params for all masters
@@ -75,9 +97,9 @@
       machine_name: "{{ item.name }}"
       machine_type: master
       machine_ip: "{{ item.ipaddr }}"
-    template: 
+    template:
       src: kernel-params.j2
-      dest: "{{role_path}}/files/{{item.name}}-kernel-params.txt"
+      dest: "{{ iso_updated_dir }}/files/{{item.name}}-kernel-params.txt"
     loop: "{{ master_vms }}"
 
   - name: Generate kernel params for all workers
@@ -85,14 +107,15 @@
       machine_name: "{{ item.name }}"
       machine_type: worker
       machine_ip: "{{ item.ipaddr }}"
-    template: 
+      #helper_vm_ip: "{{ helper_vm.private_ip }}"
+    template:
       src: kernel-params.j2
-      dest: "{{role_path}}/files/{{item.name}}-kernel-params.txt"
+      dest: "{{ iso_updated_dir }}/files/{{item.name}}-kernel-params.txt"
     loop: "{{ worker_vms }}"
 
   - name: Generate custom iso files for all VMs
     include: generate_custom_iso.yml
-    loop: "{{ bootstrap_vms + master_vms + worker_vms }}" 
+    loop: "{{ bootstrap_vms + master_vms + worker_vms }}"
 
   - name: Upload all the custom generated ISOs to the datastore
     command: "govc datastore.upload -ds {{ vcenter.datastore }} {{ iso_dir }}/{{item.name}}.iso {{item.name}}.iso"
@@ -108,4 +131,4 @@
 
   - name: Power-On all the VMs
     command: "govc vm.power -on {{ item.name }}"
-    loop: "{{ bootstrap_vms + master_vms + worker_vms }}"    
+    loop: "{{ bootstrap_vms + master_vms + worker_vms }}"

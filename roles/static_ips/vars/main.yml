@@ -1,1 +1,2 @@
-iso_dir: "{{ playbook_dir }}/downloads/ISOs"
+iso_dir: "{{ helper_vm.workdir }}/downloads/ISOs"
+iso_updated_dir: "{{ helper_vm.workdir }}/downloads/ISOs"

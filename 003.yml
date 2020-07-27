@@ -1,0 +1,28 @@
+---
+- hosts: all
+  gather_facts: False
+  vars_files: all.yml
+  tasks:
+    - name: Set the cache of all the download links
+      import_role:
+        name: cache
+
+- hosts: bastion
+  gather_facts: True
+  vars_files: all.yml
+  environment:
+    PATH: "{{ helper_vm.workdir }}/bin:{{ ansible_env.PATH }}"
+    GOVC_USERNAME: "{{ vcenter.admin_username }}"
+    GOVC_PASSWORD: "{{ vcenter.admin_password }}"
+    GOVC_URL: "https://{{ vcenter.ip }}"
+    GOVC_INSECURE: 1
+  tasks:
+    - name: check environment
+      command: "echo ${PATH}"
+      register: cmdout
+    - debug:
+        msg: "{{cmdout.stdout}}"
+    - name: Run steps for static ip setup of VMs
+      import_role:
+        name: static_ips
+#

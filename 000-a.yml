@@ -1,14 +1,28 @@
 ---
-- hosts: all
+- hosts: localhost
   gather_facts: False
+  vars_files: all.yml
+  tasks:
+    - name: Add host to group [bastion]
+      add_host:
+        name: "{{ helper_vm.public_ip }}"
+        groups: bastion
+        ansible_ssh_user: "root"
+        ansible_ssh_pass: "{{ helper_vm.rootpassword }}"
+        host_key_checking: False
+        ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
+
+- hosts: bastion
+  gather_facts: False
+  vars_files: all.yml
   tasks:
     - name: Set the cache of all the download links
       import_role:
         name: cache
 
-
 - hosts: bastion
   gather_facts: True
+  vars_files: all.yml
   environment:
     PATH: "{{ helper_vm.workdir }}/bin:{{ ansible_env.PATH }}"
   tasks:
@@ -22,8 +36,9 @@
       import_role:
         name: common
 
-- hosts: webservers
+- hosts: bastion
   gather_facts: False
+  vars_files: all.yml
   environment:
     PATH: "{{ helper_vm.workdir }}/bin:{{ ansible_env.PATH }}"
   tasks:
@@ -31,6 +46,7 @@
       import_role:
         name: webserver
         tasks_from: copy_ign_files
+
     - name: Download the installer raw.gz file to webserver
       import_role:
         name: webserver
@@ -38,6 +54,7 @@
 
 - hosts: bastion
   gather_facts: False
+  vars_files: all.yml
   environment:
     PATH: "{{ helper_vm.workdir }}/bin:{{ ansible_env.PATH }}"
     GOVC_USERNAME: "{{ vcenter.admin_username }}"

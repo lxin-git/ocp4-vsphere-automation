@@ -3,3 +3,6 @@
       url: "{{ download.raw }}"
       dest: /var/www/html/install/rhcos.raw.gz
       mode: 0555
+    environment:
+      http_proxy: "{{ helper_vm.proxy_env }}"
+      https_proxy: "{{ helper_vm.proxy_env }}"
