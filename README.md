@@ -13,6 +13,7 @@ pip install PyVmomi
 
 ```
 git clone https://github.com/lxin-git/ocp4-vsphere-automation.git
+cd ocp4-vsphere-automation
 cp all.yml.sample all.yml
 vi all.yml
 ansible-playbook start.yml
