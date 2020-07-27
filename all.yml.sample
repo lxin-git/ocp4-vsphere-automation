@@ -42,7 +42,7 @@ config:
 vcenter:
   ip: xx.xx.xx.xx
   datastore: ds01
-  network: DPortGroup
+  network: DPortGroup  # The vsphere private network name for your ocp cluster
   service_account_username: Administrator@mmlab.cn.ibm.com
   service_account_password: xxxxxx
   admin_username: Administrator@mmlab.cn.ibm.com
