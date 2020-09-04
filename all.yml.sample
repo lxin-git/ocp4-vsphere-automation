@@ -91,16 +91,17 @@ proxy:
   no_proxy: example.internal
   cert_content:
 
-registry: # Not support at this moment, just keep it enable=false
+registry:
   enabled: false
+  registry_image: docker.io/library/registry:2
   product_repo: openshift-release-dev
   product_release_name: ocp-release
-  product_release_version: 4.3.8-x86_64
+  product_release_version: 4.4.10-x86_64
   username: ansible
   password: ansible
   email: user@awesome.org
   cert_content:
-  host: registry.mcmhub.example.internal
+  host: "registry.{{ config.cluster_name }}.{{ config.base_domain }}"
   port: 5000
   repo: ocp4/openshift4
 ntp:
