@@ -1,0 +1,26 @@
+---
+staticips: true
+helper:
+  name: "atinf"
+  ipaddr: "10.0.2.210"
+  networkifacename: "ens224"
+dns:
+  domain: "cn.ibm.com"
+  clusterid: "atlab"
+  forwarder1: "9.0.146.50"
+  forwarder2: "9.42.4.252"
+bootstrap:
+  name: "atbt"
+  ipaddr: "10.0.2.216"
+masters:
+  - name: "atc1"
+    ipaddr: "10.0.2.211"
+  - name: "atc2"
+    ipaddr: "10.0.2.212"
+  - name: "atc3"
+    ipaddr: "10.0.2.213"
+workers:
+  - name: "atw1"
+    ipaddr: "10.0.2.214"
+  - name: "atw2"
+    ipaddr: "10.0.2.215"

@@ -1,0 +1,118 @@
+bootstrap_ignition_url: http://{{helper_vm.private_ip}}:8080/ignition/bootstrap.ign
+bootstrap_vms:
+-   ipaddr: 10.0.2.216
+    macaddr: 00:50:56:a8:ac:a1
+    name: atbt
+config:
+    base_domain: cn.ibm.com
+    cluster_name: atlab
+    fips: false
+    provider: vsphere
+    pull_secret:
+        auths:
+            cloud.openshift.com:
+                auth: b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K2xsaXhpbm4xYmFoeXkzYzlneGVjNHp2bHhvZG01OTVya286NkhNOEswR0oxTDdMNzhYTTBNOVUwU1NFTkxGSERZMjMzT0VUOVVEV1NQVjZPTkdYNE83QVI0Tzc4R1dYMjlBRw==
+                email: llixinn@cn.ibm.com
+            quay.io:
+                auth: b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K2xsaXhpbm4xYmFoeXkzYzlneGVjNHp2bHhvZG01OTVya286NkhNOEswR0oxTDdMNzhYTTBNOVUwU1NFTkxGSERZMjMzT0VUOVVEV1NQVjZPTkdYNE83QVI0Tzc4R1dYMjlBRw==
+                email: llixinn@cn.ibm.com
+            registry.connect.redhat.com:
+                auth: NTMwNDkwMTF8dWhjLTFiQWh5eTNjOUdYRWM0WnZMeE9kTTU5NVJrbzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSTJZVGcxTmpJM1kyRm1NV0kwTTJReFlUWm1OR0V4TkdOak5EUTVaRGszWXlKOS5zU0kzMncwS0xJYlh5akZNWW5DZjk4NVk2SU9hN0tDRmgtTENzcnVOemNIcGJGLTVYT2Ewem1NVDVxbW53RlNONC1DTFJPeC1Ba1BtM2JkZ2dBQWFoM3ZLQ0xGLVNMM1hESF94VGxxOXM0RUQwdnk4R3lMMWxRbElUOV8zMmtYUjIwVUg4djhDVWJXRXZteGVmUXFlaGcwVmp2TnhzeE8xdjJZVEpPcWo5ZmgwV1FuTTVmZjBwOW41Y0VTQVA5eFFCc25BSzRLUnU4RERJMU5kUHVJQVRNaGZsS3ItTkI2Q3VPSERPRUZCQzdXcjRoVmxFblBWZVVYS05rNVk1M09WMjhpdndFcmVseDd3ODBKMm1EaFduY3lMM2Fuc0pXRG9oUDlKV2NTcTZUNDdPbFk4M0pZazBYVTVLVXE3MDV2cmp5eXFHUE9veVJqU3VPQWw0ekpGUTNOdTQzdE8teU5YcS00aVZINXExQnp6akYwMzdfSkdyQ3VvT2g1NkY0ampSWDRLX1hYaGhnYk5na1ptR25SWXpyTW42b0lrRGFySncwQ2w1cjBlbXczSThrSmMxME5SNjktdnhWSlpsS25kMUE5UjBzN1dUblZQbEJQUnlSMUxkNkQtdW9IY2htRjRlV0d1RzNJYXBTMHE2TzRZTDJqMkFQY05Ndndlb1ZDU01YMWd6cGo4VXNvSmlHRkl6MHJUcW1pRC1mdG45aEY1Vi15Y1JwWk9xY0M3RmVkWW9ubGVvUnV4bUlUNGJuUkk0Y0VETGpiN1VNRHVTNHRSZDNqYkx0bU4wcnByY2xza3VnNjNuRF9FbDBuQ3k0aERVQkYzU0FwT2FaYXBmMmh1ZnFoNmp1dXEyX0Y0VHdJTmxsWWFFbVlaYTV2V1pMLUdMYmlHMF9IZjB6VQ==
+                email: llixinn@cn.ibm.com
+            registry.redhat.io:
+                auth: NTMwNDkwMTF8dWhjLTFiQWh5eTNjOUdYRWM0WnZMeE9kTTU5NVJrbzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSTJZVGcxTmpJM1kyRm1NV0kwTTJReFlUWm1OR0V4TkdOak5EUTVaRGszWXlKOS5zU0kzMncwS0xJYlh5akZNWW5DZjk4NVk2SU9hN0tDRmgtTENzcnVOemNIcGJGLTVYT2Ewem1NVDVxbW53RlNONC1DTFJPeC1Ba1BtM2JkZ2dBQWFoM3ZLQ0xGLVNMM1hESF94VGxxOXM0RUQwdnk4R3lMMWxRbElUOV8zMmtYUjIwVUg4djhDVWJXRXZteGVmUXFlaGcwVmp2TnhzeE8xdjJZVEpPcWo5ZmgwV1FuTTVmZjBwOW41Y0VTQVA5eFFCc25BSzRLUnU4RERJMU5kUHVJQVRNaGZsS3ItTkI2Q3VPSERPRUZCQzdXcjRoVmxFblBWZVVYS05rNVk1M09WMjhpdndFcmVseDd3ODBKMm1EaFduY3lMM2Fuc0pXRG9oUDlKV2NTcTZUNDdPbFk4M0pZazBYVTVLVXE3MDV2cmp5eXFHUE9veVJqU3VPQWw0ekpGUTNOdTQzdE8teU5YcS00aVZINXExQnp6akYwMzdfSkdyQ3VvT2g1NkY0ampSWDRLX1hYaGhnYk5na1ptR25SWXpyTW42b0lrRGFySncwQ2w1cjBlbXczSThrSmMxME5SNjktdnhWSlpsS25kMUE5UjBzN1dUblZQbEJQUnlSMUxkNkQtdW9IY2htRjRlV0d1RzNJYXBTMHE2TzRZTDJqMkFQY05Ndndlb1ZDU01YMWd6cGo4VXNvSmlHRkl6MHJUcW1pRC1mdG45aEY1Vi15Y1JwWk9xY0M3RmVkWW9ubGVvUnV4bUlUNGJuUkk0Y0VETGpiN1VNRHVTNHRSZDNqYkx0bU4wcnByY2xza3VnNjNuRF9FbDBuQ3k0aERVQkYzU0FwT2FaYXBmMmh1ZnFoNmp1dXEyX0Y0VHdJTmxsWWFFbVlaYTV2V1pMLUdMYmlHMF9IZjB6VQ==
+                email: llixinn@cn.ibm.com
+download:
+    clients_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.4.10
+    dependencies_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.4/4.4.3
+    govc: https://github.com/vmware/govmomi/releases/download/v0.22.1/govc_linux_amd64.gz
+helper_vm:
+    disksize: 100
+    hostname: atinf
+    memory_mb: 16384
+    num_cpus: 8
+    private_ip: 10.0.2.210
+    private_nic: ens224
+    proxy_env: http://9.111.141.91:3128/
+    public_dns1: 9.0.146.50
+    public_dns2: 9.42.4.252
+    public_dnsdomain: cn.ibm.com
+    public_gateway: 9.112.238.1
+    public_ip: 9.112.238.105
+    public_netmask: 255.255.255.0
+    public_network: VM Network
+    public_nic: ens192
+    rootpassword: Dem0@ring
+    template: rh77-bastion
+    workdir: /root/ocp4-vsphere-automation
+hwconfig:
+    bootstrap:
+        memory_mb: 8192
+        num_cpus: 4
+        size_gb: 50
+    master:
+        memory_mb: 8192
+        num_cpus: 4
+        size_gb: 50
+    worker:
+        memory_mb: 8192
+        num_cpus: 4
+        size_gb: 50
+master_vms:
+-   ipaddr: 10.0.2.211
+    macaddr: 00:50:56:a8:ac:a2
+    name: atc1
+-   ipaddr: 10.0.2.212
+    macaddr: 00:50:56:a8:ac:a3
+    name: atc2
+-   ipaddr: 10.0.2.213
+    macaddr: 00:50:56:a8:ac:a4
+    name: atc3
+ntp:
+    custom: false
+    ntp_server_list:
+    - 0.rhel.pool.ntp.org
+    - 1.rhel.pool.ntp.org
+proxy:
+    cert_content: null
+    enabled: false
+    http_proxy: http://9.111.141.91:3128/
+    https_proxy: http://9.111.141.91:3128/
+    no_proxy: '{{ config.cluster_name }}.{{ config.base_domain }}'
+registry:
+    cert_content: null
+    email: user@awesome.org
+    enabled: false
+    host: registry.{{ config.cluster_name }}.{{ config.base_domain }}
+    password: ansible
+    port: 5000
+    product_release_name: ocp-release
+    product_release_version: 4.3.8-x86_64
+    product_repo: openshift-release-dev
+    repo: ocp4/openshift4
+    username: ansible
+static_ip:
+    gateway: 10.0.2.254
+    netmask: 255.255.255.0
+    network_interface_name: ens192
+vcenter:
+    admin_password: Dem0@18m
+    admin_username: Administrator@mmlab.cn.ibm.com
+    cluster: cluster0
+    datacenter: Datacenter
+    datastore: ag_test01
+    folder_absolute_path: /Datacenter/vm/{{ config.cluster_name }}
+    ip: 9.112.238.90
+    network: DPortGroup
+    resource_pool: agpool
+    service_account_password: Dem0@18m
+    service_account_username: Administrator@mmlab.cn.ibm.com
+    template_name: rhcos
+    vm_power_state: poweredon
+worker_vms:
+-   ipaddr: 10.0.2.214
+    macaddr: 00:50:56:a8:ac:a5
+    name: atw1
+-   ipaddr: 10.0.2.215
+    macaddr: 00:50:56:a8:ac:a6
+    name: atw2

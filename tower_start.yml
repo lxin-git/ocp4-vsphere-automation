@@ -2,6 +2,13 @@
 - hosts: localhost
   gather_facts: False
   tasks:
+    - name: Generate var file to landing extra vars
+      copy:
+        content: "{{ ocpconfig | to_nice_yaml }}"
+        dest: "current_ocpconfig.yml"
+    - name: Loading current ocpconfig var file
+      include_vars: current_ocpconfig.yml
+
     - name: Prepare helper vars-static var file
       template:
         src: vars-static.j2
@@ -36,14 +43,16 @@
   vars_files:
     - roles/helper/vars/main.yml
   environment:
-    PATH: "{{ helper_vm.workdir }}/bin:{{ ansible_env.PATH }}"
-    GOVC_USERNAME: "{{ vcenter.admin_username }}"
-    GOVC_PASSWORD: "{{ vcenter.admin_password }}"
-    GOVC_URL: "https://{{ vcenter.ip }}"
+    PATH: "{{ ocpconfig.helper_vm.workdir }}/bin:{{ ansible_env.PATH }}"
+    GOVC_USERNAME: "{{ ocpconfig.vcenter.admin_username }}"
+    GOVC_PASSWORD: "{{ ocpconfig.vcenter.admin_password }}"
+    GOVC_URL: "https://{{ ocpconfig.vcenter.ip }}"
     GOVC_INSECURE: 1
   handlers:
   - import_tasks: roles/helper/handlers/main.yml
   tasks:
+    - name: Loading current ocpconfig var file to bastion node
+      include_vars: current_ocpconfig.yml
     - name: include vars-static
       include_vars: vars-static.yml
     - name: validate hostnames
@@ -54,19 +63,11 @@
     - name: Set the cache of all the download links
       import_role:
         name: cache
-
-    - name: debug download vars 01
-      debug: var=download
-
     - name: Create local automation directory
       file:
         path: "{{ helper_vm.workdir }}"
         state: directory
         mode: '0755'
-
-    - name: debug download vars 02
-      debug: var=download
-
     - name: Run all the common tasks
       import_role:
         name: common
