@@ -96,26 +96,26 @@
       - /var/www/html/install
       - /var/www/html/ignition
 
-  - name: Delete OCP4 files, if requested, to download again
-    file:
-       state: absent
-       path: "{{ item }}"
-    with_items:
-      - "/usr/local/src/openshift-client-linux.tar.gz"
-      - "/usr/local/src/openshift-install-linux.tar.gz"
-      - "/var/www/html/install/bios.raw.gz"
-      - "/var/lib/tftpboot/rhcos/initramfs.img"
-      - "/var/lib/tftpboot/rhcos/kernel"
-    when: force_ocp_download
+  #- name: Delete OCP4 files, if requested, to download again
+  #  file:
+  #     state: absent
+  #     path: "{{ item }}"
+  #  with_items:
+  #    - "/usr/local/src/openshift-client-linux.tar.gz"
+  #    - "/usr/local/src/openshift-install-linux.tar.gz"
+  #    - "/var/www/html/install/bios.raw.gz"
+  #    - "/var/lib/tftpboot/rhcos/initramfs.img"
+  #    - "/var/lib/tftpboot/rhcos/kernel"
+  #  when: force_ocp_download
 
-  - name: Downloading OCP4 installer Bios
-    get_url:
-      url: "{{ ocp_bios}}"
-      dest: /var/www/html/install/bios.raw.gz
-      mode: 0555
-    environment:
-      http_proxy: "{{ helper_vm.proxy_env }}"
-      https_proxy: "{{ helper_vm.proxy_env }}"
+  #- name: Downloading OCP4 installer Bios
+  #  get_url:
+  #    url: "{{ ocp_bios}}"
+  #    dest: /var/www/html/install/bios.raw.gz
+  #    mode: 0555
+  #  environment:
+  #    http_proxy: "{{ helper_vm.proxy_env }}"
+  #    https_proxy: "{{ helper_vm.proxy_env }}"
 
   - name: Start firewalld service
     systemd:
@@ -167,7 +167,7 @@
   - name: Copy NFS export conf file
     copy:
       src: ../files/nfs-exports
-      dest: /etc/exports
+      dest: /etc/exports.d/nfs-provisioner.exports
     notify:
       - restart nfs
 
@@ -203,19 +203,19 @@
     shell: "cp -a /usr/share/syslinux/* /var/lib/tftpboot"
     when: not staticips and not ppc64le
 
-  - name: Downloading OCP4 installer initramfs
-    get_url:
-      url: "{{ ocp_initramfs }}"
-      dest: /var/lib/tftpboot/rhcos/initramfs.img
-      mode: 0555
-    when: not staticips
+  #- name: Downloading OCP4 installer initramfs
+  #  get_url:
+  #    url: "{{ ocp_initramfs }}"
+  #    dest: /var/lib/tftpboot/rhcos/initramfs.img
+  #    mode: 0555
+  #  when: not staticips
 
-  - name: Downloading OCP4 installer kernel
-    get_url:
-      url: "{{ ocp_install_kernel }}"
-      dest: /var/lib/tftpboot/rhcos/kernel
-      mode: 0555
-    when: not staticips
+  #- name: Downloading OCP4 installer kernel
+  #  get_url:
+  #    url: "{{ ocp_install_kernel }}"
+  #    dest: /var/lib/tftpboot/rhcos/kernel
+  #    mode: 0555
+  #  when: not staticips
 
   - name: Generate pxe config files
     block:
@@ -411,33 +411,33 @@
         - worker
     when: chronyconfig.enabled
 
-  - name: Downloading OCP4 client
-    get_url:
-      url: "{{ ocp_client }}"
-      dest: /usr/local/src/openshift-client-linux.tar.gz
-    environment:
-      http_proxy: "{{ helper_vm.proxy_env }}"
-      https_proxy: "{{ helper_vm.proxy_env }}"
+  #- name: Downloading OCP4 client
+  #  get_url:
+  #    url: "{{ ocp_client }}"
+  #    dest: /usr/local/src/openshift-client-linux.tar.gz
+  #  environment:
+  #    http_proxy: "{{ helper_vm.proxy_env }}"
+  #    https_proxy: "{{ helper_vm.proxy_env }}"
 
-  - name: Downloading OCP4 Installer
-    get_url:
-      url: "{{ ocp_installer }}"
-      dest: /usr/local/src/openshift-install-linux.tar.gz
-    environment:
-      http_proxy: "{{ helper_vm.proxy_env }}"
-      https_proxy: "{{ helper_vm.proxy_env }}"
+  #- name: Downloading OCP4 Installer
+  #  get_url:
+  #    url: "{{ ocp_installer }}"
+  #    dest: /usr/local/src/openshift-install-linux.tar.gz
+  #  environment:
+  #    http_proxy: "{{ helper_vm.proxy_env }}"
+  #    https_proxy: "{{ helper_vm.proxy_env }}"
 
-  - name: Unarchiving OCP4 client
-    unarchive:
-      src: /usr/local/src/openshift-client-linux.tar.gz
-      dest: /usr/local/bin
-      remote_src: yes
+  #- name: Unarchiving OCP4 client
+  #  unarchive:
+  #    src: /usr/local/src/openshift-client-linux.tar.gz
+  #    dest: /usr/local/bin
+  #    remote_src: yes
 
-  - name: Unarchiving OCP4 Installer
-    unarchive:
-      src: /usr/local/src/openshift-install-linux.tar.gz
-      dest: /usr/local/bin
-      remote_src: yes
+  #- name: Unarchiving OCP4 Installer
+  #  unarchive:
+  #    src: /usr/local/src/openshift-install-linux.tar.gz
+  #    dest: /usr/local/bin
+  #    remote_src: yes
 
   - name: Removing files that are not needed
     file:

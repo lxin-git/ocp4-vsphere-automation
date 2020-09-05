@@ -13,12 +13,22 @@
       path: "{{ iso_dir }}/rhcos-installer.iso"
     register: st
 
+  - name: Clean iso mount path directory
+    file:
+      path: "{{ iso_mount_path | default('/tmp/'+st.stat.checksum) }}"
+      state: absent
+
   - name: Create the iso mount path (if one doesn't exist already)
     file:
       path: "{{ iso_mount_path | default('/tmp/'+st.stat.checksum) }}"
       state: directory
       mode: '0775'
       recurse: yes
+
+  - name: Clean duplicate iso mount path directory
+    file:
+      path: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}"
+      state: absent
 
   - name: Create duplicate dir of the iso mount path (if one doesn't exist already)
     file:

@@ -53,14 +53,14 @@ ocpconfig:
     govc: https://github.com/vmware/govmomi/releases/download/v0.22.1/govc_linux_amd64.gz
 
   bootstrap_vms:
-    - { name: "atbt", macaddr: "00:50:56:a8:ac:a1", ipaddr: "10.0.2.216"}
+    - { name: "atbt", macaddr: "00:50:56:a8:2c:a1", ipaddr: "10.0.2.216"}
   master_vms:
-    - { name: "atc1", macaddr: "00:50:56:a8:ac:a2", ipaddr: "10.0.2.211"}
-    - { name: "atc2", macaddr: "00:50:56:a8:ac:a3", ipaddr: "10.0.2.212"}
-    - { name: "atc3", macaddr: "00:50:56:a8:ac:a4", ipaddr: "10.0.2.213"}
+    - { name: "atc1", macaddr: "00:50:56:a8:2c:a2", ipaddr: "10.0.2.211"}
+    - { name: "atc2", macaddr: "00:50:56:a8:2c:a3", ipaddr: "10.0.2.212"}
+    - { name: "atc3", macaddr: "00:50:56:a8:2c:a4", ipaddr: "10.0.2.213"}
   worker_vms:
-    - { name: "atw1", macaddr: "00:50:56:a8:ac:a5", ipaddr: "10.0.2.214"}
-    - { name: "atw2", macaddr: "00:50:56:a8:ac:a6", ipaddr: "10.0.2.215"}
+    - { name: "atw1", macaddr: "00:50:56:a8:2c:a5", ipaddr: "10.0.2.214"}
+    - { name: "atw2", macaddr: "00:50:56:a8:2c:a6", ipaddr: "10.0.2.215"}
   # add more worker nodes here if required.
   #  - { name: "worker2", macaddr: "00:50:56:a8:aa:a7", ipaddr: "10.0.2.122"}
 

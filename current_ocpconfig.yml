@@ -1,7 +1,7 @@
 bootstrap_ignition_url: http://{{helper_vm.private_ip}}:8080/ignition/bootstrap.ign
 bootstrap_vms:
 -   ipaddr: 10.0.2.216
-    macaddr: 00:50:56:a8:ac:a1
+    macaddr: 00:50:56:a8:2c:a1
     name: atbt
 config:
     base_domain: cn.ibm.com
@@ -60,13 +60,13 @@ hwconfig:
         size_gb: 50
 master_vms:
 -   ipaddr: 10.0.2.211
-    macaddr: 00:50:56:a8:ac:a2
+    macaddr: 00:50:56:a8:2c:a2
     name: atc1
 -   ipaddr: 10.0.2.212
-    macaddr: 00:50:56:a8:ac:a3
+    macaddr: 00:50:56:a8:2c:a3
     name: atc2
 -   ipaddr: 10.0.2.213
-    macaddr: 00:50:56:a8:ac:a4
+    macaddr: 00:50:56:a8:2c:a4
     name: atc3
 ntp:
     custom: false
@@ -111,8 +111,8 @@ vcenter:
     vm_power_state: poweredon
 worker_vms:
 -   ipaddr: 10.0.2.214
-    macaddr: 00:50:56:a8:ac:a5
+    macaddr: 00:50:56:a8:2c:a5
     name: atw1
 -   ipaddr: 10.0.2.215
-    macaddr: 00:50:56:a8:ac:a6
+    macaddr: 00:50:56:a8:2c:a6
     name: atw2
