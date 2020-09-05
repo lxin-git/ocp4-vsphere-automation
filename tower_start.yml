@@ -54,11 +54,19 @@
     - name: Set the cache of all the download links
       import_role:
         name: cache
+
+    - name: debug download vars 01
+      debug: var=download
+
     - name: Create local automation directory
       file:
         path: "{{ helper_vm.workdir }}"
         state: directory
         mode: '0755'
+
+    - name: debug download vars 02
+      debug: var=download
+
     - name: Run all the common tasks
       import_role:
         name: common
