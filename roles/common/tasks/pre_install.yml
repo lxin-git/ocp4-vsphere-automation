@@ -99,6 +99,9 @@
         mode: '0755'
       with_items: ["bin", "downloads","downloads/ISOs", "install-dir"]
 
+    - debug:
+        msg: "{{ download }}"
+
     - name: Download the oc client binary
       get_url:
         url: "{{ download.openshiftClient }}"
