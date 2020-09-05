@@ -35,5 +35,5 @@
       - { key: "openshiftClient", value: "{{ download.clients_url }}/{{ clients_content.content | regex_search('openshift-client-linux-.*.tar.gz') }}" }
       - { key: "openshiftInstall", value: "{{ download.clients_url }}/{{ clients_content.content | regex_search('openshift-install-linux-.*.tar.gz') }}" }
 
-  - debug:
-      msg: "{{ download }}"
+  #- debug:
+  #    msg: "{{ download }}"

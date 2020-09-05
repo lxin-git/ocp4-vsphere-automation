@@ -99,9 +99,6 @@
         mode: '0755'
       with_items: ["bin", "downloads","downloads/ISOs", "install-dir"]
 
-    - debug:
-        msg: "{{ download }}"
-
     - name: Download the oc client binary
       get_url:
         url: "{{ download.openshiftClient }}"
@@ -135,6 +132,13 @@
         src: "{{ helper_vm.workdir }}/downloads/openshift_install.tar.gz"
         dest: "{{ helper_vm.workdir }}/bin"
       when: openshift_install_download is changed
+
+    - name: Put oc client to /usr/local/bin
+      copy:
+        remote_src: yes
+        src: "{{ helper_vm.workdir }}/bin/oc"
+        dest: /usr/local/bin
+        mode: 0755
 
     - name: Download govc
       get_url:

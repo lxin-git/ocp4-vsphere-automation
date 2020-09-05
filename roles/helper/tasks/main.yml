@@ -7,9 +7,6 @@
   - name: set setup facts
     include: set_facts_.yaml
 
-  - debug:
-      msg: "{{ helper_vm.proxy_env }}"
-
   - name: Install needed packages
     package:
       name: "{{ packages }}"
