@@ -32,7 +32,7 @@
         state: absent
         regexp: 'mirror-registry'
 
-    - name: Pull an image
+    - name: Pull the registry docker image
       podman_image:
         name: "{{ registry.registry_image }}"
       environment:
