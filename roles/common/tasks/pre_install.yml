@@ -151,6 +151,20 @@
         dest: /usr/local/bin
         mode: 0755
 
+    - name: Put kubectl client to /usr/local/bin
+      copy:
+        remote_src: yes
+        src: "{{ helper_vm.workdir }}/bin/kubectl"
+        dest: /usr/local/bin
+        mode: 0755
+
+    - name: Put openshift-install cli to /usr/local/bin
+      copy:
+        remote_src: yes
+        src: "{{ helper_vm.workdir }}/bin/openshift-install"
+        dest: /usr/local/bin
+        mode: 0755
+
     - name: Download govc
       get_url:
         url: "{{ download.govc}}"

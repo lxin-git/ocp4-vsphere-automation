@@ -1,0 +1,11 @@
+- name: Transfer the postinstall script.
+  copy:
+    src: ../files/postinstall.sh
+    dest: "{{ helper_vm.workdir }}"
+    mode: 755
+
+- name: Wait for bootstrap & install complete...
+  command: "{{ helper_vm.workdir }}/postinstall.sh"
+  register: cmd_res
+  retries: 5
+  until: cmd_res.rc == 0
