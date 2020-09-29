@@ -11,7 +11,7 @@ compute:
 controlPlane:
   hyperthreading: Enabled
   name: master
-  replicas: 3
+  replicas: {{ master_vms | length }}
 metadata:
   name: {{ config.cluster_name }}
 platform:
