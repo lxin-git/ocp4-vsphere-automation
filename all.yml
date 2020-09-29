@@ -47,14 +47,14 @@ vcenter:
   vm_power_state: poweredon
   template_name: rhcos
 download:
-  clients_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.3.33
-  dependencies_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.3/4.3.33
+  clients_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.4.10
+  dependencies_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.4/4.4.3
   govc: https://github.com/vmware/govmomi/releases/download/v0.22.1/govc_linux_amd64.gz
 
 bootstrap_vms:
   - { name: "smbt", macaddr: "00:50:56:a8:90:a9", ipaddr: "192.168.90.19"}
 master_vms:
-  - { name: "smc1", macaddr: "00:50:56:a8:90:a1", ipaddr: "192.168.90.11"} 
+  - { name: "smc1", macaddr: "00:50:56:a8:90:a1", ipaddr: "192.168.90.11"}
 worker_vms:
   - { name: "smw1", macaddr: "00:50:56:a8:90:a2", ipaddr: "192.168.90.12"}
   - { name: "smw2", macaddr: "00:50:56:a8:90:a3", ipaddr: "192.168.90.13"}
@@ -82,7 +82,7 @@ registry:
   registry_image: docker.io/library/registry:2
   product_repo: openshift-release-dev
   product_release_name: ocp-release
-  product_release_version: 4.3.33-x86_64
+  product_release_version: 4.4.10-x86_64
   username: ansible
   password: ansible
   email: user@awesome.org

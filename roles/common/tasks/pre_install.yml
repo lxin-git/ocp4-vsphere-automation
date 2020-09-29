@@ -115,6 +115,7 @@
         url: "{{ download.openshiftClient }}"
         dest: "{{ helper_vm.workdir }}/downloads/oc_client.tar.gz"
         validate_certs: no
+        force: yes
       environment:
         http_proxy: "{{ helper_vm.proxy_env }}"
         https_proxy: "{{ helper_vm.proxy_env }}"
@@ -125,6 +126,7 @@
         url: "{{ download.openshiftInstall }}"
         dest: "{{ helper_vm.workdir }}/downloads/openshift_install.tar.gz"
         validate_certs: no
+        force: yes
       environment:
         http_proxy: "{{ helper_vm.proxy_env }}"
         https_proxy: "{{ helper_vm.proxy_env }}"

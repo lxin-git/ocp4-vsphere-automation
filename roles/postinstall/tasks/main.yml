@@ -7,5 +7,6 @@
 - name: Wait for bootstrap & install complete...
   command: "{{ helper_vm.workdir }}/postinstall.sh"
   register: cmd_res
-  retries: 500
+  retries: 100
+  delay: 30
   until: cmd_res.rc == 0
