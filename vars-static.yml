@@ -1,0 +1,22 @@
+---
+staticips: true
+helper:
+  name: "sminf"
+  ipaddr: "192.168.90.10"
+  networkifacename: "ens224"
+dns:
+  domain: "ibm.private"
+  clusterid: "sm"
+  forwarder1: "9.0.146.50"
+  forwarder2: "9.42.4.252"
+bootstrap:
+  name: "smbt"
+  ipaddr: "192.168.90.19"
+masters:
+  - name: "smc1"
+    ipaddr: "192.168.90.11"
+workers:
+  - name: "smw1"
+    ipaddr: "192.168.90.12"
+  - name: "smw2"
+    ipaddr: "192.168.90.13"

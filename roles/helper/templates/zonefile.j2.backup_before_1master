@@ -8,7 +8,7 @@ $TTL 1W
 	IN	NS	ns1.{{ dns.clusterid }}.{{ dns.domain | lower }}.
 	IN	MX 10	smtp.{{ dns.clusterid }}.{{ dns.domain | lower }}.
 ;
-;
+; 
 ns1	IN	A	{{ helper.ipaddr }}
 smtp	IN	A	{{ helper.ipaddr }}
 ;
@@ -40,15 +40,9 @@ registry	IN	A	{{ helper.ipaddr }}
 {% endfor %}
 ;
 ; The ETCd cluster lives on the masters...so point these to the IP of the masters
-{% if masters|length == 1 %}
-etcd-0	IN	A	{{ masters[0].ipaddr }}
-etcd-1	IN	A	{{ masters[0].ipaddr }}
-etcd-2	IN	A	{{ masters[0].ipaddr }}
-{% else %}
 {% for m in masters %}
 etcd-{{ loop.index0 }}	IN	A	{{ m.ipaddr }}
 {% endfor %}
-{% endif %}
 ;
 {% if other is defined %}
 ; Create entries for the other hosts
@@ -58,14 +52,8 @@ etcd-{{ loop.index0 }}	IN	A	{{ m.ipaddr }}
 ;
 {% endif %}
 ; The SRV records are IMPORTANT....make sure you get these right...note the trailing dot at the end...
-{% if masters|length == 1 %}
-_etcd-server-ssl._tcp	IN	SRV	0 10 2380 etcd-0.{{ dns.clusterid }}.{{ dns.domain | lower }}.
-_etcd-server-ssl._tcp	IN	SRV	0 10 2380 etcd-1.{{ dns.clusterid }}.{{ dns.domain | lower }}.
-_etcd-server-ssl._tcp	IN	SRV	0 10 2380 etcd-2.{{ dns.clusterid }}.{{ dns.domain | lower }}.
-{% else %}
 {% for m in masters %}
 _etcd-server-ssl._tcp	IN	SRV	0 10 2380 etcd-{{ loop.index0 }}.{{ dns.clusterid }}.{{ dns.domain | lower }}.
 {% endfor %}
-{% endif %}
 ;
 ;EOF
