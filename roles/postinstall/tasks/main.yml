@@ -1,4 +1,4 @@
-- name: Transfer the postinstall script.
+- name: Transfer the postinstall script
   copy:
     src: ../files/postinstall.sh
     dest: "{{ helper_vm.workdir }}"
@@ -10,3 +10,31 @@
   retries: 100
   delay: 30
   until: cmd_res.rc == 0
+
+- name: Fetch kubeadmin password content
+  slurp:
+    src: "{{ helper_vm.workdir }}/install-dir/auth/kubeadmin-password"
+  register: kubeadminpass
+
+- pause:
+    seconds: 0
+    prompt: |
+    
+      *** INSTALL COMPLETE ***
+      Next steps:
+      1. You can remove the bootstrap node at this point. Recommend to simply shut the bootstrap machine down.
+
+      2. You can check the installation status of your cluster using:
+
+         openshift-install wait-for install-complete --dir {{ helper_vm.workdir }}/install-dir
+
+      3. To access the cluster as the system:admin user when using 'oc':
+
+         export KUBECONFIG={{ helper_vm.workdir }}/install-dir/auth/kubeconfig
+         oc get clusteroperator
+         oc get clusterversion
+
+      4. Access the OpenShift web-console here:
+
+        https://console-openshift-console.apps.{{ config.cluster_name }}.{{ config.base_domain}}
+        user: kubeadmin, password: {{ kubeadminpass['content'] | b64decode }}

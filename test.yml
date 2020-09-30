@@ -1,7 +1,7 @@
 ---
 - hosts: tmp
   gather_facts: False
-  vars_files: all.yml
+  vars_files: all_sm_4.4.10.yml
   tasks:
     - name: Performing the postinstall check action
       import_role:
