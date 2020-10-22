@@ -1,8 +1,14 @@
     - name: Generate the ignition manifests
       command: "openshift-install create manifests --dir={{ helper_vm.workdir }}/install-dir"
 
+    - name: Get current openshift-install minor version
+      shell: '{{ helper_vm.workdir }}/bin/openshift-install version|head -n 1|awk '{print $2}'|cut -f2 -d"."'
+      register: ocp_minor_version
+
     - name: Remove manifest files for control plane machines and compute machineSets (UPI)
-      command: "rm -f {{ helper_vm.workdir }}/install-dir/openshift/99_openshift-cluster-api_master-machines-*.yaml {{ helper_vm.workdir }}/install-dir/openshift/99_openshift-cluster-api_worker-machineset-*.yaml"
+      shell: "rm -f {{ helper_vm.workdir }}/install-dir/openshift/99_openshift-cluster-api_master-machines-*.yaml {{ helper_vm.workdir }}/install-dir/openshift/99_openshift-cluster-api_worker-machineset-*.yaml"
+      when:
+        - ocp_minor_version.stdout|int > 4
 
     - name: Apply the patch to set mastersSchedulable to false
       patch:

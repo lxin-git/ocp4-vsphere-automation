@@ -12,6 +12,6 @@
   - name: Run all the install steps
     include: install.yml
 
-  # Only valid for vmware and only 1 disk attached with our vm template.  
+  # Only valid for vmware and only 1 disk attached with our vm template.
   - name: Configure the disk to extend root filesystem
     include: config_disk.yml
