@@ -18,7 +18,10 @@ cp all.yml.sample all.yml
 vi all.yml
 ansible-playbook start.yml
 ```
-
+Updated for tower run:
+```
+ansible-playbook tower_start.yml -e @myocpconfig.yml
+```
 
 
 ## Known issue

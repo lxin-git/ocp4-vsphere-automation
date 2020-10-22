@@ -1,6 +1,9 @@
     - name: Generate the ignition manifests
       command: "openshift-install create manifests --dir={{ helper_vm.workdir }}/install-dir"
 
+    - name: Remove manifest files for control plane machines and compute machineSets (UPI)
+      command: "rm -f {{ helper_vm.workdir }}/install-dir/openshift/99_openshift-cluster-api_master-machines-*.yaml {{ helper_vm.workdir }}/install-dir/openshift/99_openshift-cluster-api_worker-machineset-*.yaml"
+
     - name: Apply the patch to set mastersSchedulable to false
       patch:
         src: "cluster-scheduler-02-config.yml.patch"
