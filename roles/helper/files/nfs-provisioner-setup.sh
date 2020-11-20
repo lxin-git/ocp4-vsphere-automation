@@ -39,7 +39,7 @@ oc create -f ${rbac}
 oc adm policy add-scc-to-user hostmount-anyuid system:serviceaccount:${nfsnamespace}:nfs-client-provisioner
 oc create -f ${deploy} -n ${nfsnamespace}
 oc create -f ${sc}
-oc annotate storageclass nfs-storage-provisioner storageclass.kubernetes.io/is-default-class="true"
+# oc annotate storageclass nfs-storage-provisioner storageclass.kubernetes.io/is-default-class="true"
 oc project default
 oc rollout status deployment nfs-client-provisioner -n ${nfsnamespace}
 #

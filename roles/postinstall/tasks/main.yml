@@ -23,6 +23,27 @@
     content: |
       oc login https://api.{{ config.cluster_name }}.{{ config.base_domain}}:6443 -u kubeadmin -p {{ kubeadminpass['content'] | b64decode }}
 
+- name: Prepare nfs-storage-provisioner setup script
+  copy:
+    dest: /tmp/nfs-sc-setup.sh
+    mode: 0755
+    content: |
+      #!/bin/bash
+      exportfs -rv
+      export KUBECONFIG={{ helper_vm.workdir }}/install-dir/auth/kubeconfig
+      firewall-cmd --permanent --add-rich-rule="rule family="ipv4" source address="{{ helper_vm.private_ip.split(".")[0] }}.{{ helper_vm.private_ip.split(".")[1] }}.0.0/16" accept"
+      firewall-cmd --reload
+      helpernodecheck nfs-setup
+      oc create -f /usr/local/src/registry-pvc.yaml -n openshift-image-registry
+      oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"storage":{"pvc":{ "claim": "registry-pvc"}}}}'
+      oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"managementState": "Managed"}}'
+      oc patch configs.imageregistry.operator.openshift.io/cluster --type merge -p '{"spec":{"defaultRoute":true}}'
+  when: storage.setup_nfs_sc
+
+- name: Setup nfs-storage-provisioner if enabled in config
+  command: /tmp/nfs-sc-setup.sh
+  when: storage.setup_nfs_sc
+
 - pause:
     seconds: 0
     prompt: |

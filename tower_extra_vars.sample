@@ -109,3 +109,8 @@ ocpconfig:
     ntp_server_list:
       - 0.rhel.pool.ntp.org
       - 1.rhel.pool.ntp.org
+
+  storage:
+    setup_nfs_sc: true  # decide whether you want setup nfs-storage-provisioner immediatly after ocp ready
+
+    
