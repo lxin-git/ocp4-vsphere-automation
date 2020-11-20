@@ -3,7 +3,7 @@ ocpconfig:
   # Parameter to setup your helper/bastion vm
   #--------------------------------------------
   helper_vm:
-    template: rh79-inf
+    template: rh79-inf # The vm template should have perl package installed in advance
     hostname: mminf  # The vmname/hostname can only support chars, do not use '-' or '_'
     public_network: VM Network
     public_nic: ens192
@@ -15,7 +15,7 @@ ocpconfig:
     public_dns2: 9.42.4.252
     private_nic: ens224
     private_ip: 10.0.2.118
-    rootpassword: Dem0@ring
+    rootpassword: yourvmpassword
     memory_mb: 16384
     num_cpus: 8
     disksize: 500
@@ -32,15 +32,15 @@ ocpconfig:
     base_domain: cn.ibm.com
     cluster_name: mmlab
     fips: false
-    pull_secret: {"auths":{"cloud.openshift.com":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K2xsaXhpbm4xYmFoeXkzYzlneGVjNHp2bHhvZG01OTVya286NkhNOEswR0oxTDdMNzhYTTBNOVUwU1NFTkxGSERZMjMzT0VUOVVEV1NQVjZPTkdYNE83QVI0Tzc4R1dYMjlBRw==","email":"llixinn@cn.ibm.com"},"quay.io":{"auth":"b3BlbnNoaWZ0LXJlbGVhc2UtZGV2K2xsaXhpbm4xYmFoeXkzYzlneGVjNHp2bHhvZG01OTVya286NkhNOEswR0oxTDdMNzhYTTBNOVUwU1NFTkxGSERZMjMzT0VUOVVEV1NQVjZPTkdYNE83QVI0Tzc4R1dYMjlBRw==","email":"llixinn@cn.ibm.com"},"registry.connect.redhat.com":{"auth":"NTMwNDkwMTF8dWhjLTFiQWh5eTNjOUdYRWM0WnZMeE9kTTU5NVJrbzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSTJZVGcxTmpJM1kyRm1NV0kwTTJReFlUWm1OR0V4TkdOak5EUTVaRGszWXlKOS5zU0kzMncwS0xJYlh5akZNWW5DZjk4NVk2SU9hN0tDRmgtTENzcnVOemNIcGJGLTVYT2Ewem1NVDVxbW53RlNONC1DTFJPeC1Ba1BtM2JkZ2dBQWFoM3ZLQ0xGLVNMM1hESF94VGxxOXM0RUQwdnk4R3lMMWxRbElUOV8zMmtYUjIwVUg4djhDVWJXRXZteGVmUXFlaGcwVmp2TnhzeE8xdjJZVEpPcWo5ZmgwV1FuTTVmZjBwOW41Y0VTQVA5eFFCc25BSzRLUnU4RERJMU5kUHVJQVRNaGZsS3ItTkI2Q3VPSERPRUZCQzdXcjRoVmxFblBWZVVYS05rNVk1M09WMjhpdndFcmVseDd3ODBKMm1EaFduY3lMM2Fuc0pXRG9oUDlKV2NTcTZUNDdPbFk4M0pZazBYVTVLVXE3MDV2cmp5eXFHUE9veVJqU3VPQWw0ekpGUTNOdTQzdE8teU5YcS00aVZINXExQnp6akYwMzdfSkdyQ3VvT2g1NkY0ampSWDRLX1hYaGhnYk5na1ptR25SWXpyTW42b0lrRGFySncwQ2w1cjBlbXczSThrSmMxME5SNjktdnhWSlpsS25kMUE5UjBzN1dUblZQbEJQUnlSMUxkNkQtdW9IY2htRjRlV0d1RzNJYXBTMHE2TzRZTDJqMkFQY05Ndndlb1ZDU01YMWd6cGo4VXNvSmlHRkl6MHJUcW1pRC1mdG45aEY1Vi15Y1JwWk9xY0M3RmVkWW9ubGVvUnV4bUlUNGJuUkk0Y0VETGpiN1VNRHVTNHRSZDNqYkx0bU4wcnByY2xza3VnNjNuRF9FbDBuQ3k0aERVQkYzU0FwT2FaYXBmMmh1ZnFoNmp1dXEyX0Y0VHdJTmxsWWFFbVlaYTV2V1pMLUdMYmlHMF9IZjB6VQ==","email":"llixinn@cn.ibm.com"},"registry.redhat.io":{"auth":"NTMwNDkwMTF8dWhjLTFiQWh5eTNjOUdYRWM0WnZMeE9kTTU5NVJrbzpleUpoYkdjaU9pSlNVelV4TWlKOS5leUp6ZFdJaU9pSTJZVGcxTmpJM1kyRm1NV0kwTTJReFlUWm1OR0V4TkdOak5EUTVaRGszWXlKOS5zU0kzMncwS0xJYlh5akZNWW5DZjk4NVk2SU9hN0tDRmgtTENzcnVOemNIcGJGLTVYT2Ewem1NVDVxbW53RlNONC1DTFJPeC1Ba1BtM2JkZ2dBQWFoM3ZLQ0xGLVNMM1hESF94VGxxOXM0RUQwdnk4R3lMMWxRbElUOV8zMmtYUjIwVUg4djhDVWJXRXZteGVmUXFlaGcwVmp2TnhzeE8xdjJZVEpPcWo5ZmgwV1FuTTVmZjBwOW41Y0VTQVA5eFFCc25BSzRLUnU4RERJMU5kUHVJQVRNaGZsS3ItTkI2Q3VPSERPRUZCQzdXcjRoVmxFblBWZVVYS05rNVk1M09WMjhpdndFcmVseDd3ODBKMm1EaFduY3lMM2Fuc0pXRG9oUDlKV2NTcTZUNDdPbFk4M0pZazBYVTVLVXE3MDV2cmp5eXFHUE9veVJqU3VPQWw0ekpGUTNOdTQzdE8teU5YcS00aVZINXExQnp6akYwMzdfSkdyQ3VvT2g1NkY0ampSWDRLX1hYaGhnYk5na1ptR25SWXpyTW42b0lrRGFySncwQ2w1cjBlbXczSThrSmMxME5SNjktdnhWSlpsS25kMUE5UjBzN1dUblZQbEJQUnlSMUxkNkQtdW9IY2htRjRlV0d1RzNJYXBTMHE2TzRZTDJqMkFQY05Ndndlb1ZDU01YMWd6cGo4VXNvSmlHRkl6MHJUcW1pRC1mdG45aEY1Vi15Y1JwWk9xY0M3RmVkWW9ubGVvUnV4bUlUNGJuUkk0Y0VETGpiN1VNRHVTNHRSZDNqYkx0bU4wcnByY2xza3VnNjNuRF9FbDBuQ3k0aERVQkYzU0FwT2FaYXBmMmh1ZnFoNmp1dXEyX0Y0VHdJTmxsWWFFbVlaYTV2V1pMLUdMYmlHMF9IZjB6VQ==","email":"llixinn@cn.ibm.com"}}}
+    pull_secret: {"auths":xxxxxxx...}
   vcenter:
-    ip: 9.112.238.90
+    ip: 9.30.21.22
     datastore: ds_demo01
     network: DPortGroup
-    service_account_username: Administrator@mmlab.cn.ibm.com
-    service_account_password: 'Dem0@18m'
-    admin_username: Administrator@mmlab.cn.ibm.com
-    admin_password: 'Dem0@18m'
+    service_account_username: youradmin@yourdomain
+    service_account_password: 'yourpassword'
+    admin_username: youradmin@yourdomain
+    admin_password: 'yourpassword'
     datacenter: Datacenter
     cluster: cluster0
     resource_pool: demopool
