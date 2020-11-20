@@ -21,7 +21,7 @@
 
 # -------------------------------------------------------------
     - name: Get current openshift-install infrastructureName hash value
-      shell: "cat {{ helper_vm.workdir }}/install-dir/manifests/manifests/cluster-infrastructure-02-config.yml|grep infrastructureName|awk '{print $2}'"
+      shell: "cat {{ helper_vm.workdir }}/install-dir/manifests/cluster-infrastructure-02-config.yml|grep infrastructureName|awk '{print $2}'"
       register: ocp_infrastructureName_hash
       when:
           - ocp_minor_version.stdout|int > 4
