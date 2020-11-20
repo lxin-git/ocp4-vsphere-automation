@@ -162,8 +162,8 @@
       - restart nfs
 
   - name: Copy NFS export conf file
-    copy:
-      src: ../files/nfs-exports
+    template:
+      src: ../templates/nfs-exports.j2
       dest: /etc/exports.d/nfs-provisioner.exports
     notify:
       - restart nfs
