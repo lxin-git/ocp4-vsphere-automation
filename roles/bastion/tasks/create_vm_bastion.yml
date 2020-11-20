@@ -1,3 +1,9 @@
+
+- name: Set the vcenter.folder_absolute_path if not provided
+  set_fact:
+    vcenter: "{{ vcenter | combine({'folder_absolute_path': '/'+datacenter+'/vm/'+config.cluster_name}, recursive=True) }}"
+  when: vcenter.folder_absolute_path is defined and vcenter.folder_absolute_path | type_debug == "NoneType"
+
 - name: Create a VM folder on given datacenter
   vcenter_folder:
     hostname: "{{ vcenter.ip }}"

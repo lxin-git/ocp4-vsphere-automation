@@ -10,37 +10,37 @@
       when:
         - ocp_minor_version.stdout|int > 4
 
-    - name: Remove hash value for vsphere vm folder definition (UPI)
-      replace:
-        dest: "{{ helper_vm.workdir }}/install-dir/manifest/cloud-provider-config.yaml"
-        regexp: >-
-          (folder\s=).*$
-        replace: >-
-          \1 "{{ folder_absolute_path}}"
-      when: vcenter.folder_absolute_path is defined and ocp_minor_version.stdout|int > 4
+#    - name: Remove hash value for vsphere vm folder definition (UPI)
+#      replace:
+#        dest: "{{ helper_vm.workdir }}/install-dir/manifest/cloud-provider-config.yaml"
+#        regexp: >-
+#          (folder\s=).*$
+#        replace: >-
+#          \1 "{{ folder_absolute_path}}"
+#      when: vcenter.folder_absolute_path is defined and ocp_minor_version.stdout|int > 4
 
 # -------------------------------------------------------------
-#    - name: Get current openshift-install infrastructureName hash value
-#      shell: "cat {{ helper_vm.workdir }}/install-dir/manifests/manifests/cluster-infrastructure-02-config.yml|grep infrastructureName|awk '{print #$2}'"
-#      register: ocp_infrastructureName_hash
-#      when:
-#          - ocp_minor_version.stdout|int > 4
-#
-#    - name: Update VM folder for new hash value
-#      command: "govc object.rename {{ vcenter.folder_absolute_path }} {{ ocp_infrastructureName_hash.stdout}}"
-#      when:
-#          - ocp_minor_version.stdout|int > 4
-#
-#    - name: Update the vcenter.folder_absolute_path for new hash
-#      set_fact:
-#        vcenter: "{{ vcenter | combine({'folder_absolute_path': '/'+datacenter+'/vm/'+ocp_infrastructureName_hash.stdout}, recursive=True) }}"
-#      when: vcenter.folder_absolute_path is defined and ocp_minor_version.stdout|int > 4
-#
-#    - name: Display the new absolute folder path of the vCenter folder
-#      debug:
-#        var: vcenter.folder_absolute_path
-#        verbosity: 1
-#
+    - name: Get current openshift-install infrastructureName hash value
+      shell: "cat {{ helper_vm.workdir }}/install-dir/manifests/manifests/cluster-infrastructure-02-config.yml|grep infrastructureName|awk '{print $2}'"
+      register: ocp_infrastructureName_hash
+      when:
+          - ocp_minor_version.stdout|int > 4
+
+    - name: Update VM folder for new hash value
+      command: "govc object.rename {{ vcenter.folder_absolute_path }} {{ ocp_infrastructureName_hash.stdout}}"
+      when:
+          - ocp_minor_version.stdout|int > 4
+
+    - name: Update the vcenter.folder_absolute_path for new hash
+      set_fact:
+        vcenter: "{{ vcenter | combine({'folder_absolute_path': '/'+datacenter+'/vm/'+ocp_infrastructureName_hash.stdout}, recursive=True) }}"
+      when: vcenter.folder_absolute_path is defined and ocp_minor_version.stdout|int > 4
+
+    - name: Display the new absolute folder path of the vCenter folder
+      debug:
+        var: vcenter.folder_absolute_path
+        verbosity: 1
+
 # -------------------------------------------------------------
 
 
