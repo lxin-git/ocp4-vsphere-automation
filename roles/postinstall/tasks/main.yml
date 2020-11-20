@@ -16,10 +16,17 @@
     src: "{{ helper_vm.workdir }}/install-dir/auth/kubeadmin-password"
   register: kubeadminpass
 
+- name: Create fast path openshift login command oclogin
+  copy:
+    dest: /usr/local/sbin/oclogin
+    mode: 0755
+    content: |
+      oc login https://api.{{ config.cluster_name }}.{{ config.base_domain}}:6443 -u kubeadmin -p {{ kubeadminpass['content'] | b64decode }}
+
 - pause:
     seconds: 0
     prompt: |
-    
+
       *** INSTALL COMPLETE ***
       Next steps:
       1. You can remove the bootstrap node at this point. Recommend to simply shut the bootstrap machine down.

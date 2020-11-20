@@ -1,6 +1,0 @@
-[tmp]
-9.112.238.113
-
-[tmp:vars]
-ansible_ssh_user="root"
-ansible_ssh_pass="Dem0@ring"
