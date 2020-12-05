@@ -12,12 +12,12 @@
       name: "{{ item.name }}"
       state: "{{ vcenter.vm_power_state }}"
       disk:
-      - size_gb: "{{ hwconfig.bootstrap.size_gb }}"
+      - size_gb: "{{ item.disksize }}"
         type: None
         datastore: "{{ vcenter.datastore }}"
       hardware:
-        memory_mb: "{{ hwconfig.bootstrap.memory_mb }}"
-        num_cpus: "{{ hwconfig.bootstrap.num_cpus }}"
+        memory_mb: "{{ item.ram }}"
+        num_cpus: "{{ item.cpu }}"
         memory_reservation_lock: True
       networks:
       - name: "{{ vcenter.network }}"
@@ -38,12 +38,12 @@
       name: "{{ item.name }}"
       state: "{{ vcenter.vm_power_state }}"
       disk:
-      - size_gb: "{{ hwconfig.master.size_gb }}"
+      - size_gb: "{{ item.disksize }}"
         type: None
         datastore: "{{ vcenter.datastore }}"
       hardware:
-        memory_mb: "{{ hwconfig.master.memory_mb }}"
-        num_cpus: "{{ hwconfig.master.num_cpus }}"
+        memory_mb: "{{ item.ram }}"
+        num_cpus: "{{ item.cpu }}"
         memory_reservation_lock: True
       networks:
       - name: "{{ vcenter.network }}"
@@ -65,12 +65,12 @@
       name: "{{ item.name }}"
       state: "{{ vcenter.vm_power_state }}"
       disk:
-      - size_gb: "{{ hwconfig.worker.size_gb }}"
+      - size_gb: "{{ item.disksize }}"
         type: None
         datastore: "{{ vcenter.datastore }}"
       hardware:
-        memory_mb: "{{ hwconfig.worker.memory_mb }}"
-        num_cpus: "{{ hwconfig.worker.num_cpus }}"
+        memory_mb: "{{ item.ram }}"
+        num_cpus: "{{ item.cpu }}"
         memory_reservation_lock: True
       networks:
       - name: "{{ vcenter.network }}"

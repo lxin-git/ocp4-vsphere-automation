@@ -18,31 +18,61 @@
       dest: "{{ role_path }}/files/{{ item.name }}-kernel-params.txt"
       flat: yes
 
-  - name: Generate isolinux.cfg patch for {{ item.name }}
+# --------- Update the isolinux.cfg and grub.cfg via linefile module instead of GNU patch -------------
+  - name: Update isolinux.cfg default menu for {{ item.name }}
+    lineinfile:
+      path: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}/isolinux/isolinux.cfg"
+      regexp: '  menu default'
+      insertafter: '^label linux'
+      line: '  menu default'
+
+  - name: Update isolinux.cfg kernel_params for {{ item.name }}
     vars:
       kernel_params: "{{ lookup('file', '{{item.name}}-kernel-params.txt') }}"
-    template:
-      src: isolinux.cfg.patch.j2
-      dest: "{{ iso_updated_dir }}/files/{{item.name}}-isolinux.cfg.patch"
-
-  - name: Generate grub.cfg patch for {{ item.name }}
-    vars:
-      kernel_params: "{{ lookup('file', '{{item.name}}-kernel-params.txt') }}"
-    template:
-      src: grub.cfg.patch.j2
-      dest: "{{ iso_updated_dir }}/files/{{item.name}}-grub.cfg.patch"
-
-  - name: Apply patch {{ iso_updated_dir }}/files/{{item.name}}-isolinux.cfg.patch
-    patch:
-      remote_src: yes
-      src: "{{ iso_updated_dir }}/files/{{item.name}}-isolinux.cfg.patch"
+    replace:
       dest: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}/isolinux/isolinux.cfg"
+      regexp: >-
+        append initrd=(.*)$
+      replace: >-
+        append initrd=\1 {{ kernel_params }}
 
-  - name: Apply patch {{iso_updated_dir}}/files/{{item.name}}-grub.cfg.patch
-    patch:
-      remote_src: yes
-      src: "{{ iso_updated_dir }}/files/{{item.name}}-grub.cfg.patch"
+  - name: update grub.cfg kernel_params for {{ item.name }}
+    vars:
+      kernel_params: "{{ lookup('file', '{{item.name}}-kernel-params.txt') }}"
+    replace:
       dest: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}/EFI/redhat/grub.cfg"
+      regexp: >-
+        (^\s+)linux (\/.*)$
+      replace: >-
+        \1linux \2 {{kernel_params}}
+# ------------------------------------------------------------------------------------------------------
+
+
+#  - name: Generate isolinux.cfg patch for {{ item.name }}
+#    vars:
+#      kernel_params: "{{ lookup('file', '{{item.name}}-kernel-params.txt') }}"
+#    template:
+#      src: isolinux.cfg.patch.j2
+#      dest: "{{ iso_updated_dir }}/files/{{item.name}}-isolinux.cfg.patch"
+#
+#  - name: Generate grub.cfg patch for {{ item.name }}
+#    vars:
+#      kernel_params: "{{ lookup('file', '{{item.name}}-kernel-params.txt') }}"
+#    template:
+#      src: grub.cfg.patch.j2
+#      dest: "{{ iso_updated_dir }}/files/{{item.name}}-grub.cfg.patch"
+#
+#  - name: Apply patch {{ iso_updated_dir }}/files/{{item.name}}-isolinux.cfg.patch
+#    patch:
+#      remote_src: yes
+#      src: "{{ iso_updated_dir }}/files/{{item.name}}-isolinux.cfg.patch"
+#      dest: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}/isolinux/isolinux.cfg"
+#
+#  - name: Apply patch {{iso_updated_dir}}/files/{{item.name}}-grub.cfg.patch
+#    patch:
+#      remote_src: yes
+#      src: "{{ iso_updated_dir }}/files/{{item.name}}-grub.cfg.patch"
+#      dest: "{{ iso_mount_path_dup | default('/tmp/'+st.stat.checksum+'-dup') }}/EFI/redhat/grub.cfg"
 
   - name: Generate custom iso for {{ item.name }}
     command: >

@@ -1,3 +1,25 @@
+
+  - name: Copy over generated ignition files to webserver
+    import_role:
+      name: webserver
+      tasks_from: copy_ign_files
+
+  - name: Download the installer raw.gz file to webserver
+    import_role:
+      name: webserver
+      tasks_from: download_raw_installer_files
+
+  - name: Reset the vcenter.vm_power_state to poweredoff
+    set_fact:
+      vcenter: "{{ vcenter | combine({'vm_power_state': 'poweredoff'}, recursive=True) }}"
+
+  - name: Run steps specific to DHCP and PXE boot
+    import_role:
+      name: dhcp_pxe
+
+
+
+
   - name: Download Openshift 4 ISO file as rhcos-installer.iso
     get_url:
       url: "{{ download.iso }}"

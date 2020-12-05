@@ -1,0 +1,34 @@
+---
+staticips: true
+helper:
+  name: "mminf"
+  ipaddr: "10.0.2.118"
+  networkifacename: "ens224"
+dns:
+  domain: "cn.ibm.com"
+  clusterid: "mmlab"
+  forwarder1: "9.0.146.50"
+  forwarder2: "9.42.4.252"
+bootstrap:
+  name: "mmlabbt"
+  ipaddr: "10.0.2.80"
+masters:
+  - name: "mmlabc1"
+    ipaddr: "10.0.2.81"
+  - name: "mmlabc2"
+    ipaddr: "10.0.2.82"
+  - name: "mmlabc3"
+    ipaddr: "10.0.2.83"
+workers:
+  - name: "mmlabw1"
+    ipaddr: "10.0.2.84"
+  - name: "mmlabw2"
+    ipaddr: "10.0.2.85"
+  - name: "mmlabw3"
+    ipaddr: "10.0.2.86"
+  - name: "mmlabw4"
+    ipaddr: "10.0.2.87"
+  - name: "mmlabw5"
+    ipaddr: "10.0.2.88"
+  - name: "mmlabw6"
+    ipaddr: "10.0.2.89"
