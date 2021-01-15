@@ -54,7 +54,7 @@
   - name: "Bootstrap base64"
     debug:
       msg: "{{ bootstrapign['content'] }}"
-      #verbosity: 1
+      verbosity: 1
 
   - name: "Master base64"
     debug:
