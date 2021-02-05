@@ -26,6 +26,7 @@ ansible-playbook tower_start.yml -e @myocpconfig.yml
 
 ## Known issue
 
+
 - ansible vmware_guest module create the same vm name in different folder not work: https://github.com/ansible/ansible/pull/60679
   `vi /usr/local/Cellar/ansible/2.8.5/libexec/lib/python3.7/site-packages/ansible/module_utils/vmware.py`
   ```
