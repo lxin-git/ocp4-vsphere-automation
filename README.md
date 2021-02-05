@@ -11,6 +11,7 @@ or `python3-pip`, depends on your python version used by ansible
 pip install PyVmomi
 ```
 
+
 ```
 git clone https://github.com/lxin-git/ocp4-vsphere-automation.git
 cd ocp4-vsphere-automation
